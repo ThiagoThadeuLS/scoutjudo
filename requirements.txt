@@ -1,0 +1,7 @@
+streamlit
+Pillow
+supabase
+streamlit-image-coordinates
+streamlit-javascript
+pandas
+plotly
