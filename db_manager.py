@@ -69,6 +69,14 @@ class DBManager:
                 partida TEXT,
                 efetividade_newaza TEXT
             );
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS shido (
+            id SERIAL PRIMARY KEY,
+            atleta_id INT NOT NULL REFERENCES atletas(id) ON DELETE CASCADE,
+            tipo TEXT,
+            tempo INTERVAL
+            );
             """
         ]
         try:
