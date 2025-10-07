@@ -1,8 +1,19 @@
-streamlit==1.35.0
-Pillow==10.3.0
-supabase==1.0.4
-streamlit-image-coordinates==0.1.7
-streamlit-javascript==0.1.8
-pandas==2.2.2
-plotly==5.22.0
-psycopg2-binary==2.9.9              
+# ─── Streamlit e visualização ─────────────────────────────
+streamlit==1.50.0
+plotly==6.3.1
+
+# ─── Manipulação de dados ─────────────────────────────────
+pandas==2.3.3
+
+# ─── Imagens ──────────────────────────────────────────────
+Pillow==11.3.0
+streamlit-image-coordinates==0.4.0
+
+# ─── JS helpers ───────────────────────────────────────────
+streamlit-javascript==0.1.5
+
+# ─── Supabase ─────────────────────────────────────────────
+supabase==2.21.1
+
+# ─── PostgreSQL ───────────────────────────────────────────
+psycopg2-binary==2.9.9
