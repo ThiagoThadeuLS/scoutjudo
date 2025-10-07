@@ -5,3 +5,4 @@ streamlit-image-coordinates
 streamlit-javascript
 pandas
 plotly
+psycopg2
