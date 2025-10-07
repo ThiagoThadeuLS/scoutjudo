@@ -118,7 +118,6 @@ with tab2:
     else:
         dict_atletas = {atleta[1]: atleta[0] for atleta in atletas}
 
-    st.subheader("Análise Treino")
     if st.button("Adicionar Luta", key="botao_adicionar_luta"):
         adicionar_luta_dialog()
 
@@ -173,7 +172,7 @@ with tab2:
                     atleta2_formatado = primeiro_e_ultimo_nome(atleta2)
                     st.markdown(f'<h3 style="text-align: center;">{atleta1_formatado} vs {atleta2_formatado}</h3>', unsafe_allow_html=True)
 
-                    left_div, central_div, right_div = st.columns([1, 4, 1])
+                    left_div, central_div, right_div = st.columns([1, 5, 2])
 
                     with central_div:
 
@@ -241,19 +240,16 @@ with tab2:
 #
 #                        with col_3:
 #                            pass
-
-
-
                         # ... [código anterior permanece inalterado] ...
 
                         with st.container():
-                            col1, col2 = st.columns(2)
+                            col1, col2 = st.columns([3, 2])
 
                             with col2:
                                 # Exibe a imagem e captura as coordenadas clicadas
                                 coordinates = streamlit_image_coordinates("assets/tatame.png", key="local", width=250)
 
-                                quadrante = None  # Inicializa a variável
+                                quadrante = "Não Definida"  # Inicializa a variável
 
                                 if coordinates is not None and "x" in coordinates and "y" in coordinates:
                                     try:
@@ -338,16 +334,13 @@ with tab2:
 
                                     efetividade_golpe = st.pills(
                                         "Selecione a efetividade do golpe",
-                                        ["Yuko", "Waza-Ari", "Ippon", "Golpe Falho", "Golpe Falso", "Irrelevante"]
+                                        ["Yuko", "Waza-Ari", "Ippon", "Golpe Falho", "Golpe Falso", "Irrelevante", "Sofreu contra-golpe"]
                                     )
 
-                                    # Mostrador para exibir o quadrante
-                                    st.text_input(
-                                        "Quadrante",
-                                        value=str(quadrante),
-                                        key="mostrador_quadrante",
-                                        disabled=True    
-                                    )
+
+                                    #Mostrador tachi waza
+                                    st.write("Quadrante Tachi-Waza")
+                                    st.subheader(quadrante)
 
                                     st.markdown("----")
 
@@ -367,14 +360,10 @@ with tab2:
                                         "Selecione a efetividade da passagem",
                                         ["Yuko", "Waza-Ari", "Ippon", "Nada", "Sofreu Contra-Ataque"]
                                     )
-
-                                    # Mostrador para exibir a direção do quadrante newaza
-                                    st.text_input(
-                                        "Direção Quadrante Newaza",
-                                        value=str(direcao_newaza),
-                                        key="mostrador_direcao_newaza",
-                                        disabled=True    
-                                    )
+                                    
+                                    #Mostrador direção newaza
+                                    st.write("Direção Ne-Waza")
+                                    st.subheader(direcao_newaza)
 
                                     enviar_form = st.form_submit_button("Enviar")
 
@@ -413,6 +402,26 @@ with tab2:
                                             st.success("Ação cadastrada com sucesso!")
                                             time.sleep(1)
                                             st.rerun()
+
+                    with right_div:
+                        st.header(" ")
+                        with st.form("forms_shido", clear_on_submit=True):
+                                    st.write("Adicionar Shido")
+
+                                    st.pills(
+                                        "Selecione quem recebeu shido",
+                                        ["Atleta 1", "Atleta 2"]
+                                    )
+
+                                    st.pills(
+                                        "Selecione o shido",
+                                        ["Golpe Falso", "Falta de Combatividade", "Desligar Kumi-Kata", "Kumi-Kata Irregular", "Pegar na Perna", "Judô Negativo"]
+                                    )
+
+                                    enviar_form = st.form_submit_button("Enviar")
+
+
+                                        
 
 
                             
