@@ -73,6 +73,7 @@ class DBManager:
             """
             CREATE TABLE IF NOT EXISTS shido (
             id SERIAL PRIMARY KEY,
+            confronto_id INT NOT NULL REFERENCES confrontos(id) ON DELETE CASCADE,
             atleta_id INT NOT NULL REFERENCES atletas(id) ON DELETE CASCADE,
             tipo TEXT,
             tempo INTERVAL
@@ -416,6 +417,16 @@ class DBManager:
             self.conn.rollback()
             print("Erro ao deletar confronto:", e)
             return False
+        
+    def adicionar_shido(self, confronto_id, atleta_id, tipo, tempo):
+        try:
+            sql_insert = "INSERT INTO shido (confronto_id, atleta_id, tipo, tempo) VALUES (%s, %s, %s, %s)"
+            self.cursor.execute(sql_insert, (confronto_id, atleta_id, tipo, tempo))
+            self.conn.commit()
+            return True
+        except Exception as e:
+            return str(e)
+
 
 
         
