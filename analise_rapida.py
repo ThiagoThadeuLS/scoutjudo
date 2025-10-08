@@ -405,25 +405,55 @@ with tab2:
 
                     with right_div:
                         st.header(" ")
+                        
+                        # Adicionando o formulário para Shido
                         with st.form("forms_shido", clear_on_submit=True):
-                                    st.write("Adicionar Shido")
+                            st.write("Adicionar Shido")
 
-                                    st.pills(
-                                        "Selecione quem recebeu shido",
-                                        ["Atleta 1", "Atleta 2"]
+                            # Seleciona quem recebeu shido
+                            atleta_recebeu_shido = st.pills(
+                                "Selecione quem recebeu shido",
+                                ["Atleta 1", "Atleta 2"]
+                            )
+
+                            # Seleção do tipo de shido
+                            tipo_shido = st.selectbox(
+                                "Selecione o shido",
+                                ["Golpe Falso", "Falta de Combatividade", "Desligar Kumi-Kata", "Kumi-Kata Irregular", "Pegar na Perna", "Judô Negativo"],
+                                index=None
+                            )
+
+                            # Botão para enviar as informações do shido
+                            enviar_form = st.form_submit_button("Enviar")
+
+                            if enviar_form:
+                                try:
+                                    # Determina qual atleta recebeu shido e captura o ID
+                                    atleta_id = ""
+                                    if atleta_recebeu_shido == "Atleta 1":
+                                        atleta_id = dict_atletas.get(atleta1)  # atleta1 já está definido anteriormente
+                                    else:
+                                        atleta_id = dict_atletas.get(atleta2)  # atleta2 já está definido anteriormente
+
+                                    # Chama o método que adiciona a shido na tabela "shido"
+                                    resultado = db_manager.adicionar_shido(
+                                        confronto_id,  # id do confronto selecionado
+                                        atleta_id,     # atleta que recebeu shido
+                                        tipo_shido,    # tipo de shido selecionado
+                                        tempo          # valor do tempo obtido anteriormente
                                     )
 
-                                    st.pills(
-                                        "Selecione o shido",
-                                        ["Golpe Falso", "Falta de Combatividade", "Desligar Kumi-Kata", "Kumi-Kata Irregular", "Pegar na Perna", "Judô Negativo"]
-                                    )
-
-                                    enviar_form = st.form_submit_button("Enviar")
-
-
+                                    if isinstance(resultado, str):
+                                        st.error(resultado)
+                                        db_manager.rollback()
+                                    else:
+                                        st.success("Shido cadastrado com sucesso!")
+                                        time.sleep(1)
+                                        st.rerun()
                                         
-
-
+                                except Exception as e:
+                                    st.error(f"Erro ao adicionar shido: {e}")
+                                    db_manager.rollback()
                             
                             
 
