@@ -316,13 +316,14 @@ with tab2:
                                     # Seleção da Mão
                                     mao_direita = st.selectbox(
                                         "Mão Direita",
-                                        ("Gola", "Gola Cruzada", "Gola Alta", "Patolada", "Patolada Cruzada", "Arm Drag", "Manga", "Cava", "Manga Cruzada"),
+                                        ("Uma Mão (Gola)", "Gola", "Gola Cruzada", "Gola Alta", "Patolada", "Patolada Cruzada", "Arm Drag", "Uma Mão (Manga)", "Manga", "Manga Cruzada", "Cava"),
                                         index=None
                                     )
 
                                     mao_esquerda = st.selectbox(
                                         "Mão Esquerda",
-                                        ("Gola", "Gola Cruzada", "Gola Alta", "Patolada", "Patolada Cruzada", "Arm Drag", "Manga", "Cava", "Manga Cruzada"),
+                                        ("Uma Mão (Gola)", "Gola", "Gola Cruzada", "Gola Alta", "Patolada", "Patolada Cruzada", "Arm Drag", "Uma Mão (Manga)", "Manga", "Manga Cruzada", "Cava"),
+                                        ("Uma Mão (Gola)", "Gola", "Gola Cruzada", "Gola Alta", "Patolada", "Patolada Cruzada", "Arm Drag", "Uma Mão (Manga)", "Manga", "Manga Cruzada", "Cava"),
                                         index=None
                                     )
 
@@ -462,4 +463,5 @@ with tab1:
 
 with tab3:
     st.subheader("Visualização")  
+
 
