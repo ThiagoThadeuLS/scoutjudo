@@ -301,7 +301,7 @@ with tab2:
                                         efetividade_golpe = st.pills(
                                             "Selecione a efetividade do golpe",
                                             ["Yuko", "Waza-Ari", "Ippon", "Golpe Falho", "Golpe Falso", "Irrelevante", "Sofreu contra-golpe"]
-                                        )
+                                        )   
 
                                     st.markdown("----")
                                     
@@ -361,16 +361,17 @@ with tab2:
                                             action_atleta_id,      # atleta que realizou a ação
                                             quadrante,             # quadrante obtido a partir da imagem
                                             grupo_golpe,           # grupo do golpe
-                                            tempo_ocorrido,        # tempo ocorrido (string no formato "HH:MM:SS" ou como intervalo)
-                                            mao_direita,
-                                            mao_esquerda,
-                                            efetividade_golpe,
-                                            newaza,                # sempre False conforme especificado
-                                            atleta_id_nw,         # ID do atleta relacionado à passagem newaza
+                                            tempo_ocorrido,        # tempo ocorrido
+                                            mao_direita,           # mão direita
+                                            mao_esquerda,          # mão esquerda
+                                            efetividade_golpe,     # efetividade do golpe
+                                            newaza,                # valor booleano se é newaza
+                                            atleta_id_nw,         # ID do atleta relacionado à newaza
                                             direcao_newaza,        # direção da ação em newaza
                                             partida,               # posição de partida da ação
                                             efetividade_newaza     # efetividade da passagem
                                         )
+
 
                                         if isinstance(resultado, str):
                                             st.error(resultado)
