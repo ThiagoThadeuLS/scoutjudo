@@ -65,6 +65,7 @@ class DBManager:
                 mao_esquerda TEXT,
                 efetividade_golpe TEXT,
                 newaza BOOLEAN,
+                atleta_id_nw INT NOT NULL REFERENCES atletas(id) ON DELETE CASCADE,
                 direcao TEXT,
                 partida TEXT,
                 efetividade_newaza TEXT
@@ -316,28 +317,29 @@ class DBManager:
             
 
     def adicionar_acao(self, confronto_id: int, atleta_id: int, quadrante: int, grupo_golpe: str,
-                       tempo_ocorrido: str, mao_direita: str, mao_esquerda: str, efetividade_golpe: str,
-                       newaza: bool, direcao: str, partida: str, efetividade_newaza: str):
+                   tempo_ocorrido: str, mao_direita: str, mao_esquerda: str, efetividade_golpe: str,
+                   newaza: bool, atleta_id_nw: int, direcao: str, partida: str, efetividade_newaza: str):
         """
         Insere uma nova ação na tabela 'acoes'.
 
         Parâmetros:
-          - confronto_id: ID do confronto no qual a ação ocorreu.
-          - atleta_id: ID do atleta que realizou a ação.
-          - quadrante: Valor do quadrante capturado pela posição da imagem.
-          - grupo_golpe: Grupo do golpe (ex: 'Te-Waza', 'Ashi-Waza', etc).
-          - tempo_ocorrido: Tempo ocorrido (em formato 'HH:MM:SS' ou outro formato reconhecido pelo banco).
-          - mao_direita: Descrição da ação com a mão direita.
-          - mao_esquerda: Descrição da ação com a mão esquerda.
-          - efetividade_golpe: Efetividade do golpe (ex: 'Yuko', 'Waza-Ari', etc).
-          - newaza: Valor booleano indicando se foi realizada ou não a passagem newaza (neste caso, sempre False).
-          - direcao: Direção registrada a partir das coordenadas newaza.
-          - partida: Origem da passagem (ex: 'Cabeça', 'Costas', etc).
-          - efetividade_newaza: Efetividade da passagem newaza.
-        
+        - confronto_id: ID do confronto no qual a ação ocorreu.
+        - atleta_id: ID do atleta que realizou a ação.
+        - quadrante: Valor do quadrante capturado pela posição da imagem.
+        - grupo_golpe: Grupo do golpe (ex: 'Te-Waza', 'Ashi-Waza', etc).
+        - tempo_ocorrido: Tempo ocorrido (em formato 'HH:MM:SS' ou outro formato reconhecido pelo banco).
+        - mao_direita: Descrição da ação com a mão direita.
+        - mao_esquerda: Descrição da ação com a mão esquerda.
+        - efetividade_golpe: Efetividade do golpe (ex: 'Yuko', 'Waza-Ari', etc).
+        - newaza: Valor booleano indicando se foi realizada ou não a passagem newaza.
+        - atleta_id_nw: ID do atleta relacionado à passagem newaza.
+        - direcao: Direção registrada a partir das coordenadas newaza.
+        - partida: Origem da passagem (ex: 'Cabeça', 'Costas', etc).
+        - efetividade_newaza: Efetividade da passagem newaza.
+
         Retorna:
-          - O ID da ação inserida, se a inserção for bem-sucedida.
-          - Uma string com a mensagem de erro, caso ocorra alguma exceção.
+        - O ID da ação inserida, se a inserção for bem-sucedida.
+        - Uma string com a mensagem de erro, caso ocorra alguma exceção.
         """
         try:
             cur = self.conn.cursor()
@@ -352,10 +354,11 @@ class DBManager:
                     mao_esquerda, 
                     efetividade_golpe,
                     newaza, 
+                    atleta_id_nw,
                     direcao, 
                     partida, 
                     efetividade_newaza
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 RETURNING id
             """
             cur.execute(insert_query, (
@@ -368,6 +371,7 @@ class DBManager:
                 mao_esquerda,
                 efetividade_golpe,
                 newaza,
+                atleta_id_nw,  # Adiciona o ID do atleta relacionado à newaza
                 direcao,
                 partida,
                 efetividade_newaza
@@ -379,6 +383,7 @@ class DBManager:
         except Exception as e:
             self.conn.rollback()
             return str(e)
+
 
     def rollback(self):
         """Realiza rollback na transação caso necessário."""
