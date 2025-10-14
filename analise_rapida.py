@@ -408,7 +408,7 @@ with tab2:
                             # Seleção do tipo de shido
                             tipo_shido = st.selectbox(
                                 "Selecione o shido",
-                                ["Golpe Falso", "Falta de Combatividade", "Desligar Kumi-Kata", "Kumi-Kata Irregular", "Pegar na Perna", "Judô Negativo"],
+                                ["Golpe Falso", "Falta de Combatividade", "Desligar Kumi-Kata", "Kumi-Kata Irregular", "Pegar na Perna", "Judô Negativo", "Passou a Cabeça", "Evitar Kumi-Kata"],
                                 index=None
                             )
 
@@ -450,6 +450,7 @@ with tab1:
 
 with tab3:
     st.subheader("Visualização")  
+
 
 
 
