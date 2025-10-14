@@ -441,7 +441,5 @@ class DBManager:
             if self.conn:
                 self.conn.close()   
 
-
-
 def get_db_manager():
     return DBManager()
