@@ -340,21 +340,34 @@ with tab2:
                                     enviar_form = st.form_submit_button("Enviar")
 
                                     if enviar_form:
-                                        # Seleciona o id do atleta com base no valor do autor (usando os nomes dos atletas já carregados anteriormente)
+                                        # Seleciona o id do atleta com base no valor do autor
                                         if autor == "Atleta 1":
                                             action_atleta_id = dict_atletas.get(atleta1)
                                         else:
                                             action_atleta_id = dict_atletas.get(atleta2)
-
+                                
                                         # Aqui, assumimos que o tempo_ocorrido foi definido anteriormente conforme o seletor de tempo
                                         tempo_ocorrido = tempo
-
+                                
                                         # Captura o ID do atleta_id_nw com base na seleção do seletor id_newaza
-                                        if id_newaza == "Atleta 1":
-                                            atleta_id_nw = dict_atletas.get(atleta1)
+                                        if st.session_state.get("newaza_toggle"):
+                                            # Se o toggle estiver ativo, capturamos o ID do atleta que fez o ne-waza
+                                            if id_newaza == "Atleta 1":
+                                                atleta_id_nw = dict_atletas.get(atleta1)
+                                            else:
+                                                atleta_id_nw = dict_atletas.get(atleta2)
+                                
+                                            # Captura as informações relacionadas ao ne-waza
+                                            direcao_newaza = direcao_newaza  # Isso ainda mantém o valor escolhido baseado na imagem
+                                            partida = partida                  # Mantém o valor escolhido
+                                            efetividade_newaza = efetividade_newaza  # Mantém o valor escolhido
                                         else:
-                                            atleta_id_nw = dict_atletas.get(atleta2)
-
+                                            # Se o toggle não estiver ativo, define como None
+                                            atleta_id_nw = None
+                                            direcao_newaza = None
+                                            partida = None
+                                            efetividade_newaza = None
+                                
                                         # Agora, chama o método que adiciona a ação na tabela "acoes"
                                         resultado = db_manager.adicionar_acao(
                                             confronto_id,          # id do confronto selecionado
@@ -366,13 +379,12 @@ with tab2:
                                             mao_esquerda,          # mão esquerda
                                             efetividade_golpe,     # efetividade do golpe
                                             newaza,                # valor booleano se é newaza
-                                            atleta_id_nw,         # ID do atleta relacionado à newaza
-                                            direcao_newaza,        # direção da ação em newaza
-                                            partida,               # posição de partida da ação
-                                            efetividade_newaza     # efetividade da passagem
+                                            atleta_id_nw,          # ID do atleta relacionado à newaza (None se toggle não ativado)
+                                            direcao_newaza,        # direção da ação em newaza (None se toggle não ativado)
+                                            partida,               # posição de partida da ação (None se toggle não ativado)
+                                            efetividade_newaza     # efetividade da passagem (None se toggle não ativado)
                                         )
-
-
+                                
                                         if isinstance(resultado, str):
                                             st.error(resultado)
                                             db_manager.rollback()
@@ -464,6 +476,7 @@ with tab1:
 
 with tab3:
     st.subheader("Visualização")  
+
 
 
 
