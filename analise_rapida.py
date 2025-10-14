@@ -300,7 +300,7 @@ with tab2:
 
                                         efetividade_golpe = st.pills(
                                             "Selecione a efetividade do golpe",
-                                            ["Yuko", "Waza-Ari", "Ippon", "Golpe Falho", "Golpe Falso", "Irrelevante", "Sofreu contra-golpe"]
+                                            ["Yuko", "Waza-Ari", "Ippon", "Golpe Falho", "Golpe Falso", "Irrelevante", "Sofreu contra-golpe", "Transição"]
                                         )   
 
                                     st.markdown("----")
@@ -440,6 +440,7 @@ with tab1:
 
 with tab3:
     st.subheader("Visualização")  
+
 
 
 
