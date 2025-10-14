@@ -172,13 +172,13 @@ with tab2:
                     atleta2_formatado = primeiro_e_ultimo_nome(atleta2)
                     st.markdown(f'<h3 style="text-align: center;">{atleta1_formatado} vs {atleta2_formatado}</h3>', unsafe_allow_html=True)
 
-                    left_div, central_div, right_div = st.columns([1, 5, 2])
+                    left_div, right_div = st.columns([6, 2])
 
-                    with central_div:
+                    with left_div:
 
                         seletor_tempo = st.pills(
                         "Tempo", 
-                        ['Minuto 0','Minuto 1','Minuto 2','Minuto 3', "Golden Score"], 
+                        ['Minuto 3','Minuto 2','Minuto 1','Minuto 0', "Golden Score"], 
                         key="selected_tempo_acao"
                     )
                         
@@ -194,58 +194,14 @@ with tab2:
                             tempo = "00:04:00"
 
 
-#                        col_1, col_2, col_3 = st.columns(3)
-#                        with  col_1:
-#                            if st.button("Iniciar Luta"):
-#                                # Captura e armazena o horário no session_state
-#                                st.session_state.horario = datetime.now().strftime("%H:%M:%S")
-#
-#                            # Garante que st.session_state.horario está definido
-#                            if "horario" not in st.session_state:
-#                                st.session_state.horario = ""
-#                            # Exibe o input com o horário capturado ou vazio se ainda não estiver definido
-#                            st.text_input(
-#                                "Luta iniciada",
-#                                value=st.session_state.horario,
-#                                key="horario_inicio",
-#                                disabled=True
-#                            )
-#
-#                        with col_2:
-#                            if st.button("Salvar Ação"):
-#                                        st.session_state.acao = datetime.now().strftime("%H:%M:%S")
-#
-#                            # Garante que st.session_state.acao esteja definido
-#                            if "acao" not in st.session_state:
-#                                st.session_state.acao = ""
-#
-#                            # Calcula a diferença entre "acao" e "horario"
-#                            diff_str = ""
-#                            if st.session_state.horario and st.session_state.acao:
-#                                fmt = "%H:%M:%S"
-#                                try:
-#                                    t_horario = datetime.strptime(st.session_state.horario, fmt)
-#                                    t_acao = datetime.strptime(st.session_state.acao, fmt)
-#                                    diff = t_acao - t_horario
-#                                    diff_str = str(diff)
-#                                except Exception as e:
-#                                    diff_str = f"Erro no cálculo: {e}"
-#
-#                            # Exibe a diferença calculada no mostrador
-#                            st.text_input(
-#                                "Tempo Ação",
-#                                value=diff_str,
-#                                key="acao_mostrador",
-#                            )
-#
-#                        with col_3:
-#                            pass
-                        # ... [código anterior permanece inalterado] ...
+
 
                         with st.container():
-                            col1, col2 = st.columns([3, 2])
+                            
 
-                            with col2:
+                            with right_div:
+                                st.subheader(" ")
+                                st.subheader(" ")
                                 # Exibe a imagem e captura as coordenadas clicadas
                                 coordinates = streamlit_image_coordinates("assets/tatame.png", key="local", width=250)
 
@@ -268,8 +224,8 @@ with tab2:
                                     except Exception as e:
                                         st.error(f"Erro ao processar coordenadas: {e}")
 
-                                st.markdown("----")
 
+                                st.subheader(" ")
                                 coordinates_newaza = streamlit_image_coordinates("assets/tatame_newaza.png", key="local_newaza", width=250)
 
                                 # Calcula a direção com base nas coordenadas da imagem newaza
@@ -303,67 +259,83 @@ with tab2:
                                 if st.button("Finalizar Luta", key="botao_finalizar_luta"):
                                     finalizar_luta_dialog()
 
-                            with col1:
+                            with left_div:
+
                                 with st.form("forms_evento", clear_on_submit=True):
-                                    st.write("Adicionar Evento")
+                                    col_1, col_2, col_3 = st.columns(3)
+                                    
+                                    with col_1:
+                                        st.write("Adicionar Evento")
 
-                                    # Seleciona o atleta que executou a ação
-                                    autor = st.pills(
-                                        "Selecione o autor da ação",
-                                        ["Atleta 1", "Atleta 2"]
-                                    )
+                                        # Seleciona o atleta que executou a ação
+                                        autor = st.pills(
+                                            "Selecione o autor da ação",
+                                            ["Atleta 1", "Atleta 2"]
+                                        )
 
-                                    # Seleção da Mão
-                                    mao_direita = st.selectbox(
-                                        "Mão Direita",
-                                        ("Uma Mão (Gola)", "Gola", "Gola Cruzada", "Gola Alta", "Patolada", "Patolada Cruzada", "Arm Drag", "Uma Mão (Manga)", "Manga", "Manga Cruzada", "Cava"),
-                                        index=None
-                                    )
+                                        #Mostrador tachi waza
+                                        st.write("Quadrante Tachi-Waza")
+                                        st.subheader(quadrante)
+                                   
+                                    with col_2:
+                                        # Seleção da Mão
+                                        mao_direita = st.selectbox(
+                                            "Mão Direita",
+                                            ("Uma Mão (Gola)", "Gola", "Gola Cruzada", "Gola Alta", "Patolada", "Patolada Cruzada", "Arm Drag", "Uma Mão (Manga)", "Manga", "Manga Cruzada", "Cava"),
+                                            index=None
+                                        )
 
-                                    mao_esquerda = st.selectbox(
-                                        "Mão Esquerda",
-                                        ("Uma Mão (Gola)", "Gola", "Gola Cruzada", "Gola Alta", "Patolada", "Patolada Cruzada", "Arm Drag", "Uma Mão (Manga)", "Manga", "Manga Cruzada", "Cava"),
-                                        index=None
-                                    )
+                                        mao_esquerda = st.selectbox(
+                                            "Mão Esquerda",
+                                            ("Uma Mão (Gola)", "Gola", "Gola Cruzada", "Gola Alta", "Patolada", "Patolada Cruzada", "Arm Drag", "Uma Mão (Manga)", "Manga", "Manga Cruzada", "Cava"),
+                                            index=None
+                                        )
+                                    
+                                    with col_3:
+                                        # Grupo do golpe e efetividade do golpe
+                                        grupo_golpe = st.pills(
+                                            "Selecione o grupo do golpe",
+                                            ["Te-Waza", "Ashi-Waza", "Koshi-Waza", "Sutemi-Waza", "Yoko-Sutemi-waza", "Kaeshi Waza"]
+                                        )
 
-                                    # Grupo do golpe e efetividade do golpe
-                                    grupo_golpe = st.pills(
-                                        "Selecione o grupo do golpe",
-                                        ["Te-Waza", "Ashi-Waza", "Koshi-Waza", "Sutemi-Waza", "Yoko-Sutemi-waza", "Kaeshi Waza"]
-                                    )
-
-                                    efetividade_golpe = st.pills(
-                                        "Selecione a efetividade do golpe",
-                                        ["Yuko", "Waza-Ari", "Ippon", "Golpe Falho", "Golpe Falso", "Irrelevante", "Sofreu contra-golpe"]
-                                    )
-
-
-                                    #Mostrador tachi waza
-                                    st.write("Quadrante Tachi-Waza")
-                                    st.subheader(quadrante)
+                                        efetividade_golpe = st.pills(
+                                            "Selecione a efetividade do golpe",
+                                            ["Yuko", "Waza-Ari", "Ippon", "Golpe Falho", "Golpe Falso", "Irrelevante", "Sofreu contra-golpe"]
+                                        )
 
                                     st.markdown("----")
+                                    
+                                    col1_ , col2_, col3_ = st.columns(3)
 
                                     # Dados para a passagem (caso haja passagem, ou newaza)
+                                    with col1_:
+                                        newaza = False
+                                        st.toggle(" ", key="newaza_toggle")
+                                        if st.session_state.get("newaza_toggle"):
+                                            newaza = True
 
-                                    newaza = False
-                                    st.toggle(" ", key="newaza_toggle")
-                                    if st.session_state.get("newaza_toggle"):
-                                        newaza = True
+                                        id_newaza = st.pills(
+                                            "Selecione quem fez o ne-waza",
+                                            ["Atleta 1", "Atleta 2"]
+                                        )
 
-                                    partida = st.pills(
-                                        "Selecione de onde partiu a passagem",
-                                        ["Cabeça", "Costas", "Lateral", "Meia-Guarda", "Guarda", "Oportunista"]
-                                    )           
+                                        #Mostrador direção newaza
+                                        st.write("Direção Ne-Waza")
+                                        st.subheader(direcao_newaza)
 
-                                    efetividade_newaza = st.pills(
-                                        "Selecione a efetividade da passagem",
-                                        ["Yuko", "Waza-Ari", "Ippon", "Nada", "Sofreu Contra-Ataque"]
-                                    )
+                                    with col2_:
+                                        partida = st.pills(
+                                            "Selecione de onde partiu a passagem",
+                                            ["Cabeça", "Costas", "Lateral", "Meia-Guarda", "Guarda", "Oportunista"]
+                                        )           
+
+                                    with col3_:
+                                        efetividade_newaza = st.pills(
+                                            "Selecione a efetividade da passagem",
+                                            ["Yuko", "Waza-Ari", "Ippon", "Nada", "Sofreu Contra-Ataque"]
+                                        )
                                     
-                                    #Mostrador direção newaza
-                                    st.write("Direção Ne-Waza")
-                                    st.subheader(direcao_newaza)
+                                    
 
                                     enviar_form = st.form_submit_button("Enviar")
 
@@ -377,7 +349,11 @@ with tab2:
                                         # Aqui, assumimos que o tempo_ocorrido foi definido anteriormente conforme o seletor de tempo
                                         tempo_ocorrido = tempo
 
-                                        
+                                        # Captura o ID do atleta_id_nw com base na seleção do seletor id_newaza
+                                        if id_newaza == "Atleta 1":
+                                            atleta_id_nw = dict_atletas.get(atleta1)
+                                        else:
+                                            atleta_id_nw = dict_atletas.get(atleta2)
 
                                         # Agora, chama o método que adiciona a ação na tabela "acoes"
                                         resultado = db_manager.adicionar_acao(
@@ -390,6 +366,7 @@ with tab2:
                                             mao_esquerda,
                                             efetividade_golpe,
                                             newaza,                # sempre False conforme especificado
+                                            atleta_id_nw,         # ID do atleta relacionado à passagem newaza
                                             direcao_newaza,        # direção da ação em newaza
                                             partida,               # posição de partida da ação
                                             efetividade_newaza     # efetividade da passagem
@@ -403,7 +380,7 @@ with tab2:
                                             time.sleep(1)
                                             st.rerun()
 
-                    with right_div:
+
                         st.header(" ")
                         
                         # Adicionando o formulário para Shido
