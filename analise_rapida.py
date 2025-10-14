@@ -295,7 +295,7 @@ with tab2:
                                         # Grupo do golpe e efetividade do golpe
                                         grupo_golpe = st.pills(
                                             "Selecione o grupo do golpe",
-                                            ["Te-Waza", "Ashi-Waza", "Koshi-Waza", "Sutemi-Waza", "Yoko-Sutemi-waza", "Kaeshi Waza"]
+                                            ["Te-Waza", "Ashi-Waza", "Koshi-Waza", "Sutemi-Waza", "Yoko-Sutemi-waza", "Kaeshi Waza", "Tranco"]
                                         )
 
                                         efetividade_golpe = st.pills(
@@ -440,6 +440,7 @@ with tab1:
 
 with tab3:
     st.subheader("Visualização")  
+
 
 
 
