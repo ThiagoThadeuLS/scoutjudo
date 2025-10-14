@@ -295,12 +295,12 @@ with tab2:
                                         # Grupo do golpe e efetividade do golpe
                                         grupo_golpe = st.pills(
                                             "Selecione o grupo do golpe",
-                                            ["Te-Waza", "Ashi-Waza", "Koshi-Waza", "Sutemi-Waza", "Yoko-Sutemi-waza", "Kaeshi Waza", "Tranco"]
+                                            ["Te-Waza", "Ashi-Waza", "Koshi-Waza", "Sutemi-Waza", "Yoko-Sutemi-waza", "Kaeshi Waza"]
                                         )
 
                                         efetividade_golpe = st.pills(
                                             "Selecione a efetividade do golpe",
-                                            ["Yuko", "Waza-Ari", "Ippon", "Golpe Falho", "Golpe Falso", "Irrelevante", "Sofreu contra-golpe", "Transição"]
+                                            ["Yuko", "Waza-Ari", "Ippon", "Golpe Falho", "Golpe Falso", "Irrelevante", "Sofreu contra-golpe"]
                                         )   
 
                                     st.markdown("----")
@@ -397,7 +397,7 @@ with tab2:
                             # Seleção do tipo de shido
                             tipo_shido = st.selectbox(
                                 "Selecione o shido",
-                                ["Golpe Falso", "Falta de Combatividade", "Desligar Kumi-Kata", "Kumi-Kata Irregular", "Pegar na Perna", "Judô Negativo", "Passou a Cabeça"],
+                                ["Golpe Falso", "Falta de Combatividade", "Desligar Kumi-Kata", "Kumi-Kata Irregular", "Pegar na Perna", "Judô Negativo"],
                                 index=None
                             )
 
@@ -405,33 +405,57 @@ with tab2:
                             enviar_form = st.form_submit_button("Enviar")
 
                             if enviar_form:
-                                try:
-                                    # Determina qual atleta recebeu shido e captura o ID
-                                    atleta_id = ""
-                                    if atleta_recebeu_shido == "Atleta 1":
-                                        atleta_id = dict_atletas.get(atleta1)  # atleta1 já está definido anteriormente
-                                    else:
-                                        atleta_id = dict_atletas.get(atleta2)  # atleta2 já está definido anteriormente
+                            # Seleciona o id do atleta com base no valor do autor (usando os nomes dos atletas já carregados anteriormente)
+                                if autor == "Atleta 1":
+                                    action_atleta_id = dict_atletas.get(atleta1)
+                                else:
+                                    action_atleta_id = dict_atletas.get(atleta2)
 
-                                    # Chama o método que adiciona a shido na tabela "shido"
-                                    resultado = db_manager.adicionar_shido(
-                                        confronto_id,  # id do confronto selecionado
-                                        atleta_id,     # atleta que recebeu shido
-                                        tipo_shido,    # tipo de shido selecionado
-                                        tempo          # valor do tempo obtido anteriormente
-                                    )
+                                # Aqui, assumimos que o tempo_ocorrido foi definido anteriormente conforme o seletor de tempo
+                                tempo_ocorrido = tempo
 
-                                    if isinstance(resultado, str):
-                                        st.error(resultado)
-                                        db_manager.rollback()
+                                # Verifica se o toggle está acionado
+                                if st.session_state.get("newaza_toggle"):  # Verifica o estado do toggle
+                                    atleta_id_nw = None          # Define como vazio
+                                    direcao_newaza = ""          # Define como vazio
+                                    partida = ""                 # Define como vazio
+                                    efetividade_newaza = ""      # Define como vazio
+                                else:
+                                    # Captura o ID do atleta_id_nw com base na seleção do seletor id_newaza
+                                    if id_newaza == "Atleta 1":
+                                        atleta_id_nw = dict_atletas.get(atleta1)
                                     else:
-                                        st.success("Shido cadastrado com sucesso!")
-                                        time.sleep(1)
-                                        st.rerun()
-                                        
-                                except Exception as e:
-                                    st.error(f"Erro ao adicionar shido: {e}")
+                                        atleta_id_nw = dict_atletas.get(atleta2)
+                                    
+                                    direcao_newaza = direcao_newaza  # Aqui você manteria o valor escolhido baseado na imagem
+                                    partida = partida                  # Aqui você manteria o valor escolhido
+                                    efetividade_newaza = efetividade_newaza  # Aqui você manteria o valor escolhido
+
+                                # Chama o método que adiciona a ação na tabela "acoes"
+                                resultado = db_manager.adicionar_acao(
+                                    confronto_id,          # id do confronto selecionado
+                                    action_atleta_id,      # atleta que realizou a ação
+                                    quadrante,             # quadrante obtido a partir da imagem
+                                    grupo_golpe,           # grupo do golpe
+                                    tempo_ocorrido,        # tempo ocorrido
+                                    mao_direita,           # mão direita
+                                    mao_esquerda,          # mão esquerda
+                                    efetividade_golpe,     # efetividade do golpe
+                                    newaza,                # valor booleano se é newaza
+                                    atleta_id_nw,          # ID do atleta relacionado à newaza (vazio se toggle ativado)
+                                    direcao_newaza,        # direção da ação em newaza (vazio se toggle ativado)
+                                    partida,               # posição de partida da ação (vazio se toggle ativado)
+                                    efetividade_newaza     # efetividade da passagem (vazio se toggle ativado)
+                                )
+
+                                if isinstance(resultado, str):
+                                    st.error(resultado)
                                     db_manager.rollback()
+                                else:
+                                    st.success("Ação cadastrada com sucesso!")
+                                    time.sleep(1)
+                                    st.rerun()
+
                             
                             
 
@@ -440,9 +464,6 @@ with tab1:
 
 with tab3:
     st.subheader("Visualização")  
-
-
-
 
 
 
